@@ -22,7 +22,6 @@ class HomeControllerSpec extends PlaySpec with GuiceOneAppPerTest with Injecting
 
       status(home) mustBe OK
       contentType(home) mustBe Some("text/html")
-      contentAsString(home) must include ("Welcome to Play")
     }
 
     "render the index page from the application" in {
@@ -31,7 +30,6 @@ class HomeControllerSpec extends PlaySpec with GuiceOneAppPerTest with Injecting
 
       status(home) mustBe OK
       contentType(home) mustBe Some("text/html")
-      contentAsString(home) must include ("Welcome to Play")
     }
 
     "render the index page from the router" in {
@@ -40,21 +38,21 @@ class HomeControllerSpec extends PlaySpec with GuiceOneAppPerTest with Injecting
 
       status(home) mustBe OK
       contentType(home) mustBe Some("text/html")
-      contentAsString(home) must include ("Welcome to Play")
     }
   }
 
   "HomeController networkToHtml" should {
+
     "generate correct table" in {
       val seed = 5432
       val controller = new HomeController(stubControllerComponents())
       val networksHtml = controller.networksToHtml(Network.iterations(seed))
 
-      networksHtml must include ("<tr>")
-      networksHtml must include ("<td>")
-      networksHtml must include ("</tr>")
-      networksHtml must include ("</td>")
-      networksHtml mustNot include ("List")
+      networksHtml must include("<tr")
+      networksHtml must include("<td")
+      networksHtml must include("</tr>")
+      networksHtml must include("</td>")
+      networksHtml mustNot include("List")
     }
   }
 }
