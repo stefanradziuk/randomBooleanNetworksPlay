@@ -1,0 +1,48 @@
+:root {
+  --main-fg-color: #ffaaaa;
+  --main-bg-color: #242148;
+  --main-fg-color-translucent: rgba(255, 170, 170, .5);
+  --cell-size: 5vh;
+  --cell-corner-radius: .5vh;
+  --cell-spacing: .3vh;
+}
+
+body {
+  color: var(--main-fg-color);
+  background-color: var(--main-bg-color);
+  font-family: "Fira Code", monospace;
+}
+
+h1 {
+  text-align: center;
+}
+
+table#rbn-table {
+  border-spacing: var(--cell-spacing);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+th, td {
+  border: .3vh solid var(--main-fg-color);
+  width: var(--cell-size);
+  height: var(--cell-size);
+  border-radius: var(--cell-corner-radius);
+  -moz-border-radius: var(--cell-corner-radius);
+}
+
+td.full {
+  background-color: var(--main-fg-color);
+}
+
+::-webkit-scrollbar {
+  width: auto;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--main-bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--main-fg-color-translucent);
+}
