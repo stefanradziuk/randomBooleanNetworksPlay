@@ -1,10 +1,11 @@
 :root {
-  --main-fg-color: #ffaaaa;
-  --main-bg-color: #242148;
-  --main-fg-color-translucent: rgba(255, 170, 170, .5);
-  --cell-size: 5vh;
-  --cell-corner-radius: .5vh;
-  --cell-spacing: .3vh;
+  --main-fg-color: #cbbab3;
+  --main-bg-color: #1f322f;
+  --main-fg-color-translucent: rgba(220, 153, 115, .5);
+  --cell-size: 35px;
+  --cell-corner-radius: 4px;
+  --cell-spacing: 6px;
+  --cell-border-width: 2px;
 }
 
 body {
@@ -24,7 +25,7 @@ table#rbn-table {
 }
 
 th, td {
-  border: .3vh solid var(--main-fg-color);
+  border: var(--cell-border-width) solid var(--main-fg-color);
   width: var(--cell-size);
   height: var(--cell-size);
   border-radius: var(--cell-corner-radius);
