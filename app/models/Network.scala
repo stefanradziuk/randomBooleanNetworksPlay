@@ -26,7 +26,7 @@ case class Network private(size: Int, truthTable: TruthTable, nodes: Seq[Node]) 
 }
 
 object Network {
-  private val defaultSize = 20
+  val defaultSize = 20
 
   def apply(size: Int = defaultSize, seed: Long): Network = {
     Random.setSeed(seed)

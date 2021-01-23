@@ -1,14 +1,15 @@
+let reachedEnd = false;
+
 window.onscroll = function () {
   const margin = 300;
 
-  if ((window.innerHeight + window.pageYOffset + margin)
+  if (!reachedEnd && (window.innerHeight + window.pageYOffset + margin)
       >= document.body.offsetHeight) {
 
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
-      if (this.responseText.length > 0) {
-        document.getElementById("rbn-tbody").innerHTML += this.responseText;
-      }
+      document.getElementById("rbn-tbody").innerHTML += this.responseText;
+      reachedEnd = this.responseText.includes("end");
     };
 
     const seed = document.getElementById("seed").value;

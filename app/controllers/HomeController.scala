@@ -16,6 +16,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
 
   private val initialIterations = 100
   private val onLoadIterations = 50
+  private val maxCount = 1000
 
   /**
    * Create an Action to render an HTML page.
@@ -45,23 +46,13 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
     (networks.slice(drop, drop + iterations).toList map networkToRow).mkString
   }
 
-
-  private val sampleNetworkTable: Html = Html(
-    """
-      |    <tr>
-      |      <td></td>
-      |      <td></td>
-      |      <td></td>
-      |    </tr>
-      |    <tr>
-      |      <td></td>
-      |      <td class="full"></td>
-      |      <td></td>
-      |    </tr>
-      |""".stripMargin)
-
   def loadMore(seed: Long, count: Int): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
     println(s"loadMore hit with seed: $seed, count: $count")
-    Ok(networksToHtml(Network.iterations(seed), iterations = onLoadIterations, drop = count))
+    Ok {
+      if (count <= maxCount)
+        networksToHtml(Network.iterations(seed), iterations = onLoadIterations, drop = count)
+      else
+        s"""<tr><td colspan="${Network.defaultSize}" id="table-end">that's all folks!</td></tr>"""
+    }
   }
 }
