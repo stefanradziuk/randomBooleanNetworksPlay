@@ -19,3 +19,7 @@ window.onscroll = function () {
     xhttp.send();
   }
 };
+
+function openInfo() {
+  document.getElementById("infoPopup").classList.toggle("visiblePopup");
+}
