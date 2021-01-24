@@ -3,14 +3,12 @@ package models
 import scala.util.Random
 
 class TruthTable private(table: Seq[Boolean]) {
-  def apply(values: (Boolean, Boolean, Boolean)): Boolean = values match {
-    case (x, y, z) =>
-      table(valuesToIdx(x, y, z))
+  def getValueFor: (Boolean, Boolean, Boolean) => Boolean = {
+    case (x, y, z) => table(valuesToIdx(x, y, z))
   }
 
-  def valuesToIdx(x: Boolean, y: Boolean, z: Boolean): Int = {
+  def valuesToIdx(x: Boolean, y: Boolean, z: Boolean): Int =
     (if (x) 4 else 0) + (if (y) 2 else 0) + (if (z) 1 else 0)
-  }
 
   override def toString: String = table.zipWithIndex.map {
     case (b: Boolean, i: Int) => String.format("%3s | %b\n", i.toBinaryString, b)

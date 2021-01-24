@@ -5,24 +5,26 @@ import scala.util.Random
 case class Network private(size: Int, truthTable: TruthTable, nodes: Seq[Node]) {
   def nextNode(node: Node): Node = {
     val (x, y, z) = node.inputs
-    val nextVal = truthTable(nodes(x).value, nodes(y).value, nodes(z).value)
+    val nextVal = truthTable.getValueFor(nodes(x).value, nodes(y).value, nodes(z).value)
     Node(nextVal, node.inputs)
   }
 
   def nextIteration: Network = new Network(size, truthTable, nodes map nextNode)
 
-  def configToString: String = "Truth table:\n" ++ truthTable.toString ++ "Node connections:\n" ++ nodesToString
+  def configToString: String =
+    s"""Truth table:
+       |${truthTable.toString}
+       |Node connections:
+       |$nodesToString""".stripMargin
 
-  def nodesToString: String = nodes.map {
+  def nodesToString: String = ((nodes map {
     _.inputs
-  }.zipWithIndex.map {
+  }).zipWithIndex map {
     case (t, i) => String.format("%2d | %2d, %2d, %2d\n", i, t._1, t._2, t._3)
-  }.mkString
+  }).mkString
 
   override def toString: String =
-    nodes.foldLeft(new StringBuilder)({
-      _.append(_)
-    }).append('\n').toString
+    nodes.foldLeft(new StringBuilder)(_ append _).append('\n').toString
 }
 
 object Network {
