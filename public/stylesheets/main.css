@@ -1,7 +1,8 @@
 :root {
   --main-fg-color: #cbbab3;
   --main-bg-color: #1f322f;
-  --main-fg-color-translucent: rgba(220, 153, 115, .5);
+  --main-fg-color-translucent: var(--main-fg-color);
+  --main-bg-color-translucent: rgba(31, 50, 47, .9);
   --cell-size: 35px;
   --cell-corner-radius: 4px;
   --cell-spacing: 6px;
@@ -39,6 +40,38 @@ td#table-end {
 
 td.full {
   background-color: var(--main-fg-color);
+}
+
+#infoButton {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 20px;
+  cursor: pointer;
+}
+
+#infoPopup {
+  visibility: hidden;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  margin: 20px;
+  padding: 10px;
+  line-height: 200%;
+  background-color: var(--main-bg-color-translucent);
+  font-size: large;
+}
+
+.visiblePopup {
+  visibility: visible !important;
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+  text-decoration: none;
+  color: var(--main-fg-color);
 }
 
 ::-webkit-scrollbar {
