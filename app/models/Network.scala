@@ -2,10 +2,15 @@ package models
 
 import scala.util.Random
 
-case class Network private(size: Int, truthTable: TruthTable, nodes: Seq[Node]) {
+case class Network private (
+    size: Int,
+    truthTable: TruthTable,
+    nodes: Seq[Node]
+) {
   def nextNode(node: Node): Node = {
     val (x, y, z) = node.inputs
-    val nextVal = truthTable.getValueFor(nodes(x).value, nodes(y).value, nodes(z).value)
+    val nextVal =
+      truthTable.getValueFor(nodes(x).value, nodes(y).value, nodes(z).value)
     Node(nextVal, node.inputs)
   }
 
@@ -19,8 +24,8 @@ case class Network private(size: Int, truthTable: TruthTable, nodes: Seq[Node]) 
 
   def nodesToString: String = ((nodes map {
     _.inputs
-  }).zipWithIndex map {
-    case (t, i) => String.format("%2d | %2d, %2d, %2d\n", i, t._1, t._2, t._3)
+  }).zipWithIndex map { case (t, i) =>
+    String.format("%2d | %2d, %2d, %2d\n", i, t._1, t._2, t._3)
   }).mkString
 
   override def toString: String =
@@ -44,5 +49,6 @@ object Network {
   }
 
   val iterations: Long => LazyList[Network] =
-    seed => Network(defaultSize, seed) #:: iterations(seed) map (_.nextIteration)
+    seed =>
+      Network(defaultSize, seed) #:: iterations(seed) map (_.nextIteration)
 }

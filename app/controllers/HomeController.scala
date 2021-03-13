@@ -7,33 +7,35 @@ import models._
 
 import scala.util.Random
 
-/**
- * This controller creates an `Action` to handle HTTP requests to the
- * application's home page.
- */
+/** This controller creates an `Action` to handle HTTP requests to the
+  * application's home page.
+  */
 @Singleton
-class HomeController @Inject()(val controllerComponents: ControllerComponents) extends BaseController {
+class HomeController @Inject() (val controllerComponents: ControllerComponents)
+    extends BaseController {
 
   private val initialIterations = 100
   private val onLoadIterations = 50
   private val maxCount = 1000
 
-  /**
-   * Create an Action to render an HTML page.
-   *
-   * The configuration in the `routes` file means that this method
-   * will be called when the application receives a `GET` request with
-   * a path of `/`.
-   */
-  def index(seed: Option[Long] = None): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.index(genNetworkTable(seed.getOrElse(Random.nextLong()))))
+  /** Create an Action to render an HTML page.
+    *
+    * The configuration in the `routes` file means that this method
+    * will be called when the application receives a `GET` request with
+    * a path of `/`.
+    */
+  def index(seed: Option[Long] = None): Action[AnyContent] = Action {
+    implicit request: Request[AnyContent] =>
+      Ok(views.html.index(genNetworkTable(seed.getOrElse(Random.nextLong()))))
   }
 
   private def genNetworkTable(seed: Long): Html = {
     println(s"Generating an rbn from seed: $seed")
     val hiddenInput = s"""<input type="hidden" id="seed" value="$seed">"""
     val tableContent = networksToHtml(Network.iterations(seed))
-    Html(s"""$hiddenInput<table id="rbn-table"><tbody id = "rbn-tbody">$tableContent</tbody></table>""")
+    Html(
+      s"""$hiddenInput<table id="rbn-table"><tbody id = "rbn-tbody">$tableContent</tbody></table>"""
+    )
   }
 
   private def nodeToCell(node: Node): String =
@@ -42,17 +44,26 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
   private def networkToRow(network: Network): String =
     s"<tr>${(network.nodes map nodeToCell).mkString}</tr>"
 
-  def networksToHtml(networks: LazyList[Network], iterations: Int = initialIterations, drop: Int = 0): String = {
+  def networksToHtml(
+      networks: LazyList[Network],
+      iterations: Int = initialIterations,
+      drop: Int = 0
+  ): String = {
     (networks.slice(drop, drop + iterations).toList map networkToRow).mkString
   }
 
-  def loadMore(seed: Long, count: Int): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    println(s"loadMore hit with seed: $seed, count: $count")
-    Ok {
-      if (count <= maxCount)
-        networksToHtml(Network.iterations(seed), iterations = onLoadIterations, drop = count)
-      else
-        s"""<tr><td colspan="${Network.defaultSize}" id="table-end">that's all folks!</td></tr>"""
-    }
+  def loadMore(seed: Long, count: Int): Action[AnyContent] = Action {
+    implicit request: Request[AnyContent] =>
+      println(s"loadMore hit with seed: $seed, count: $count")
+      Ok {
+        if (count <= maxCount)
+          networksToHtml(
+            Network.iterations(seed),
+            iterations = onLoadIterations,
+            drop = count
+          )
+        else
+          s"""<tr><td colspan="${Network.defaultSize}" id="table-end">that's all folks!</td></tr>"""
+      }
   }
 }
